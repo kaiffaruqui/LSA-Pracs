@@ -1,0 +1,74 @@
+Theory:-
+In Linux, the Secure Shell (SSH) is a method where you can access another computer through a secure and two-way encrypted communication system over the internet. 
+By enabling the SSH service in Linux, you can use the SSH protocol as an FTP (File Transfer Protocol) server or, you can get remote access to another Pc. 
+Enabling SSH service can connect your device to another device or server through a secure tunnel where your identity and data transmissions are totally safe and encrypted.
+If you are a network administrator, you must know how to enable and configure the SSH service in Linux.
+
+Step 1:-
+Install openssh-server package.
+$ sudo apt update
+$ sudo apt upgrade
+$ sudo apt install openssh-server
+Step 2:-
+Configure firewall to allow ssh traffic
+$ sudo ufw allow ssh
+Step 3:-
+Check if ssh service automatically started and is running.
+$ sudo systemctl status ssh
+Step 4:-
+Start the ssh service if it's not already started.
+$ sudo systemctl start ssh
+Step 5:-
+Disable ssh from automatically started during system boot if required. 
+$ sudo systemctl disable ssh
+Configure SSH server to automaticall start during system boot if required
+$ sudo systemctl enable ssh
+Configure SSH server options by editing the configuration file using your favorite editor. 
+$ sudo vi /etc/ssh/sshd_config
+Restart SSH service for any changes to take effect. 
+$ sudo systemctl restart ssh
+
+
+
+
+THEORY:-
+NFS (Network File Share) is a protocol that allows you to share directories and files with other Linux clients in a network. 
+The directory to be shared is usually created on the NFS server and files added to it.
+The client systems mount the directory residing on the NFS server, which grants them access to the files created.
+NFS comes in handy when you need to share common data among client systems especially when they are running out of space.
+
+Steps:-
+Install NFS Kernel Server in Ubuntu
+$ sudo apt update
+$ sudo apt install nfs-kernel-server
+Create an NFS Export Directory
+$ sudo mkdir -p /mnt/nfs_share
+Give permissions
+$ sudo chmod 777 /mnt/nfs_share/
+Grant NFS Share Access to Client Systems
+$ sudo vim /etc/exports
+/mnt/nfs_share  192.168.43.0/24(rw,sync,no_subtree_check)
+To grant access to client
+/mnt/nfs_share  client_IP_1 (re,sync,no_subtree_check)
+Export the NFS Share Directory
+$ sudo exportfs -a
+$ sudo systemctl restart nfs-kernel-server
+Allow NFS Access through the Firewall
+$ sudo ufw allow from 192.168.43.0/24 to any 2049
+enable the firewall
+$ sudo ufw enable
+$ sudo ufw status
+Install the NFS-Common Package
+$ sudo apt install nfs-common
+Create a NFS Mount Point on Client
+$ sudo mkdir -p /mnt/nfs_clientshare
+Mount NFS Share on Client System
+$ ifconfig
+$ sudo mount 192.168.43.234:/mnt/nfs_share  /mnt/nfs_clientshare
+ Testing the NFS Share on Client System
+ $ cd /mnt/nfs_share/
+$ touch file1.txt file2.txt file3.txt
+$ ls -l /mnt/nfs_clientshare/
+
+
+
